@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" routerLink="/" routerLinkActive="active">Registro Cuidame</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                
+            </ul>
+            <div class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit" (click)="cerrarSesion()"><b>Cerrar Sesión</b></button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div *ngIf="alert === 1" class="alert alert-warning alert-dismissible fade show position" role="alert">
+  <strong>Advertencia!</strong> Algunos espacios se encuentran vacios.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div *ngIf="alert === 2" class="alert alert-info alert-dismissible fade show position" role="alert">
+  <strong>Atención!</strong> Primero registre al Usuario.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div *ngIf="alert === 3" class="alert alert-success alert-dismissible fade show position" role="alert">
+  <strong>Atención!</strong> Usuario registrado existosamente.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div *ngIf="alert === 4" class="alert alert-success alert-dismissible fade show position" role="alert">
+  <strong>Atención!</strong> Temperatura registrado existosamente.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="container container-form bg-light ">
+    <h1 class="text-center">Registro de temperatura</h1>
+    <br>
+    
+    <form [formGroup]="eventoForm" (ngSubmit)="registrar()" novalidate>
+
+        <div class="form-group row">
+          <label for="Empresa" class="col-sm-4 col-form-label">Empresa</label>
+          <div class="col-sm-8">
+            <input formControlName="empresa" type="text" readonly class="form-control" id="Empresa" value="" required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="Persona" class="col-sm-4 col-form-label">Número Documento</label>
+          <div class="col-sm-8">
+            <input formControlName="numero_documento" type="text" class="form-control" id="Persona" (change)='verificarNumero()' required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="Temperatura" class="col-sm-4 col-form-label">Temperatura</label>
+          <div class="col-sm-8">
+            <input formControlName="temp" type="text" class="form-control" id="Temperatura" required >
+          </div>
+        </div>
+        
+        <div class="form-group row" *ngIf="mostrarNomb">
+          <label for="name" class="col-sm-4 col-form-label">Nombre de la persona</label>
+          <div class="col-sm-8">
+            <input formControlName="name" type="text" class="form-control" id="Nombre" required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div  class="col-sm-4"></div>
+          <div class="col-sm-8">
+            <button *ngIf="!enviar" type="submit" class="btn btn-primary mb-2 form-control">
+              <p >Registrar</p>
+            </button>
+            <button *ngIf="enviar" type="submit" class="btn btn-success mb-2 form-control">
+              <p >Enviar</p>
+            </button>
+          </div>
+        </div>
+
+      </form>
+</div>

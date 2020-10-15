@@ -1,0 +1,34 @@
+
+<div *ngIf="error == 1" class="alert alert-warning alert-dismissible fade show position" role="alert">
+  <strong>¡Advertencia!</strong> Algunos espacios están sin llenar.
+  <button type="button" class="close" (click)="cerrar()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div *ngIf="error == 2" class="alert alert-warning alert-dismissible fade show position" role="alert">
+  <strong>¡Advertencia!</strong> El correo electrónico o contraseña es incorrecta. Vuelva a intentar.
+  <button type="button" class="close" (click)="cerrar()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="container-login">
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+    <h1 class="titulo">Registro Cuidame</h1>
+    <div class="form-group">
+      <label for="email">Correo electrónico</label>
+      <input formControlName="email"  type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" valid>  
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Contraseña</label>
+      <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1" valid>
+    </div>
+    <br/>
+    
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Ingresar</button>
+    <br/>
+
+    <a routerLink="/registerUser" routerLinkActive="active">¿No tiene cuenta? Regístrete aquí</a>
+  </form>  
+</div>

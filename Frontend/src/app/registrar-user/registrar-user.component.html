@@ -1,0 +1,70 @@
+<div *ngIf="advertencia" class="alert alert-warning alert-dismissible fade show position" role="alert">
+    <strong>¡Advertencia!</strong> Algunos espacios están sin llenar.
+    <button type="button" class="close" (click)="cerrar()" >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+<section class="registrar">
+    <form class="form" [formGroup]="registerUserForm" (ngSubmit)="registrar()" novalidate>
+        <h1 class="titulo">Registro de Usuario</h1>
+
+        <div class="form-group">
+            <label for="id_rol">Rol</label>
+            <select formControlName="id_rol" (change)="changeRol($event)" name="id_rol" id="id_rol"  class="form-control">
+                <option [ngValue]="2">Empresa</option>
+                <option [ngValue]="3">Persona</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input formControlName="name" class="form-control" id="name" type="text" required/> 
+        </div>
+        
+        <div class="form-group">
+            <label for="tipoDoc">Tipo de documento</label>
+            <input formControlName="tipo_documento" class="form-control" id="tipoDoc" type="text" required/> 
+        </div>
+        
+        <div class="form-group">
+            <label for="numeroDoc">Número de documento</label>
+            <input formControlName="numero_documento" class="form-control" id="numeroDoc" type="text" required/> 
+        </div>
+        
+        <div class="form-group" *ngIf="rol == 2">
+            <label for="direccion">Dirección</label>
+            <input formControlName="direccion" class="form-control" id="direccion" type="text" ng-disabled="false" /> 
+        </div>
+        
+        <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input formControlName="telefono" class="form-control" id="telefono" type="text" required/> 
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input formControlName="email" class="form-control" id="email" type="email" required/> 
+        </div>
+        
+        <div class="form-group">
+            <label for="contrasenia">Contraseña</label>
+            <input formControlName="password" class="form-control" id="contrasenia" type="password" required/> 
+            <small class="mensaje-r" *ngIf="error == 1"><i class="fas fa-exclamation-circle"></i> Contraseña es corta (Mínimo 6 caracteres)</small>
+        </div>
+
+        <div class="form-group">
+            <label for="contrasenia2">Confirmar contraseña</label>
+            <input [(ngModel)]="contrasenia2" [ngModelOptions]="{standalone: true}"  class="form-control" id="contrasenia2" type="password" required/> 
+            <small class="mensaje-r" *ngIf="error == 2"><i class="fas fa-exclamation-circle"></i> Contraseña no coincide</small>
+        </div>.
+        <br/>
+
+        <div class="form-group">
+            <button type="submit" class="btn  btn-primary btn-lg btn-block"> Enviar <i class="fas fa-paper-plane"></i></button>
+        </div>
+        
+        <a routerLink="/" routerLinkActive="active">Volver a inicio de sesión</a>
+ </form>
+
+</section>
