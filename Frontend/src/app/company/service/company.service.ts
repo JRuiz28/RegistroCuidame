@@ -9,7 +9,6 @@ export class CompanyService {
 
   constructor(
     private _http: HttpClient
-
   ) { }
 
   checkUser(data){
@@ -27,7 +26,6 @@ export class CompanyService {
   setUsuario(data) {
     let params = JSON.stringify(data);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    
     return this._http.post(environment.REGISTER, params, {headers: headers});
   }
 }

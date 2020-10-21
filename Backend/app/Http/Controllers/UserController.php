@@ -46,11 +46,16 @@ class UserController extends Controller
     }
     
     public function update(Request $request){
-        $exist = User::where('numero_documento',$request->get('numero_documento'))->count();
+        $exist = User::where(
+            'numero_documento',$request->get('numero_documento',
+            ))->count();
 
         if ($exist) {
             $userUpdate = DB::TABLE('users')
-                ->where('numero_documento','=', $request->numero_documento)
+                ->where([
+                    ['numero_documento','=', $request->numero_documento],
+                    ['email','=','' ]
+                ])
                 ->update([
                     'name' => $request->name,
                     'tipo_documento' => $request->tipo_documento,
@@ -64,27 +69,7 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        $exist = User::where('numero_documento',$request->get('numero_documento'))->count();
 
-        if ($exist) {
-            $userUpdate = DB::TABLE('users')
-                ->where('numero_documento','=', $request->numero_documento)
-                ->update([
-                    'name' => $request->name,
-                    'tipo_documento' => $request->tipo_documento,
-                    'telefono' => $request->telefono,
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                ]);
-            return response()->json(['status' => '200', 'Message' => 'Usuario actualizada correctamente.']);
-        }
-
-        $user = User::create([
-            'name' => $request->get('name'),
-            'id_rol' => $request->get('id_rol'),
-            'numero_documento'=> $request->get('numero_documento')
-        ]);
-        
         $datos = $request->get('email');
         if($datos == ''){
             $user = User::create([
@@ -99,8 +84,30 @@ class UserController extends Controller
         }
         else{
             $id_rol=$request->get('id_rol');
-
             
+
+        $validatorNumero = Validator::make($request->all(), 
+        [
+            'numero_documento'=>'required|unique:users',
+        ]);
+        if($validatorNumero->fails()){
+
+            $userUpdate = DB::TABLE('users')
+                ->where(
+                    'numero_documento','=', $request->numero_documento
+                    )
+                ->whereNull('email')
+                ->update([
+                    'name' => $request->name,
+                    'tipo_documento' => $request->tipo_documento,
+                    'telefono' => $request->telefono,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
+
+            return response()->json(['status' => '200', 'Message' => 'Usuario actualizada correctamente.']);
+        }
+
         if($id_rol==2){
         
             $validator = Validator::make($request->all(), 
@@ -136,6 +143,7 @@ class UserController extends Controller
                 return response()->json($validator->errors()->toJson(), 400);
             }
         }
+        
             $user = User::create([
                 'name' => $request->get('name'),
                 'email' => $request->get('email'),
